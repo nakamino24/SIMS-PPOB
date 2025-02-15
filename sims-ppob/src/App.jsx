@@ -6,11 +6,13 @@ import Profile from "./pages/Dashboard/Profile";
 import TopUp from "./pages/Dashboard/TopUp";
 import Transaction from "./pages/Dashboard/Transaction";
 import History from "./pages/Dashboard/History";
+import { Navigate } from "react-router-dom";
 
 function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Home />} />
