@@ -42,10 +42,19 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!validateForm()) return;
 
+    const requestData = {
+      email: form.email,
+      first_name: form.firstName, // Sesuaikan nama properti agar sesuai dengan backend
+      last_name: form.lastName,
+      password: form.password,
+      confirm_password: form.confirmPassword,
+    };
+
     try {
-      const result = await dispatch(registerUser(form)).unwrap();
+      const result = await dispatch(registerUser(requestData)).unwrap();
       if (result) {
         toast.success("Registrasi berhasil! Silakan login.");
         navigate("/login");
