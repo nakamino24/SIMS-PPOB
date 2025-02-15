@@ -5,6 +5,7 @@ import InputField from "../../components/InputField";
 import BackgroundSaldo from "../../assets/Background Saldo.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { fetchBalance, fetchProfile } from "../../store/userSlice";
+import Modal from "../../components/Modal";
 
 const TopUp = () => {
   const dispatch = useDispatch();
@@ -12,6 +13,8 @@ const TopUp = () => {
   const { data: profileData, isLoading: profileLoading } = fetchProfile();
   const [amount, setAmount] = useState("");
   const [showSaldo, setShowSaldo] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
   const handleChange = (e) => {
     setAmount(e.target.value);
@@ -26,7 +29,8 @@ const TopUp = () => {
     dispatch(topUpBalance(numericAmount))
       .then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
-          alert("Top Up berhasil!");
+          setModalMessage("Top Up berhasil!");
+          setIsModalOpen(true);
           setAmount("");
         } else {
           alert("Top Up gagal, silakan coba lagi.");
@@ -39,6 +43,12 @@ const TopUp = () => {
 
   return (
     <div className="w-full min-h-screen bg-white flex flex-col items-center p-6">
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        amount={amount}
+        message={modalMessage}
+      />
       {/* Navbar */}
       <div className="w-full flex justify-between items-center max-w-5xl mb-6">
         {/* Logo dan Judul */}

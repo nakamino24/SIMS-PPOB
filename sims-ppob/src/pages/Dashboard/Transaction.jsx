@@ -5,6 +5,7 @@ import { fetchServices, createTransaction } from "../../store/transactionSlice";
 import { fetchBalance, fetchProfile } from "../../store/userSlice";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
+import Modal from "../../components/Modal";
 
 import PBB from "../../assets/PBB.png";
 import Listrik from "../../assets/Listrik.png";
@@ -42,6 +43,8 @@ const Transaction = () => {
   const { data: balanceData, isLoading: balanceLoading } = fetchBalance();
   const [loading, setLoading] = useState(false);
   const [showSaldo, setShowSaldo] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
   const selectedService = services[serviceId];
 
@@ -62,7 +65,8 @@ const Transaction = () => {
     dispatch(createTransaction({ serviceId }))
       .unwrap()
       .then(() => {
-        toast.success("Transaksi berhasil!");
+        setModalMessage("Transaksi berhasil!");
+        setIsModalOpen(true);
         navigate("/history");
       })
       .catch(() => toast.error("Transaksi gagal, coba lagi."))
@@ -77,6 +81,12 @@ const Transaction = () => {
 
   return (
     <div className="w-full min-h-screen bg-white flex flex-col items-center p-6">
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        amount={selectedService.price}
+        message={modalMessage}
+      />
       <div className="w-full flex justify-between items-center max-w-5xl mb-6">
         {/* Logo dan Judul */}
         <div className="flex items-center space-x-4">
