@@ -24,8 +24,7 @@ function App() {
         <Route path="/topup" element={<TopUp />} />
         <Route path="/transaction" element={<Transaction />} />
         <Route path="/history" element={<History />} />
-        <Route path="*" element={<Navigate to="/login" />} />{" "}
-        {/* Redirect jika halaman tidak ditemukan */}
+        <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
   );
